@@ -1,15 +1,36 @@
+import 'react-native-gesture-handler';
+
 import { StatusBar } from 'expo-status-bar';
-import { Text, View } from 'react-native';
+import { registerRootComponent } from 'expo';
+import { Text, TouchableOpacity, View } from 'react-native';
+import Animated, {useSharedValue, useAnimatedStyle} from 'react-native-reanimated';
 
-export default function App() {
 
+function App() {
+  const animation = useSharedValue(0);
+  const animatedStyles = useAnimatedStyle(() => ({
+    transform: [{translateX: animation.value}],
+  }));
 
   return (
-    <View>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+    <View className="flex flex-1 justify-center items-center">
+      <Animated.View 
+        style={[
+          {
+            width: 100,
+            height: 100,
+            backgroundColor: "orange",
+          },
+          animatedStyles,
+        ]}></Animated.View>
+      <TouchableOpacity 
+        onPress={() => {animation.value = 100;}}
+        className="w-40 h-10 justify-center items-center border mt-5"
+      >
+        <Text>Start Animation</Text>
+      </TouchableOpacity>
     </View>
   );
 }
 
-
+registerRootComponent(App);
