@@ -1,35 +1,30 @@
-import 'react-native-gesture-handler';
-
-import { StatusBar } from 'expo-status-bar';
+import * as React from 'react';
+import ProductsList from './screens/ProductsList';
 import { registerRootComponent } from 'expo';
-import { Text, TouchableOpacity, View } from 'react-native';
-import Animated, {useSharedValue, useAnimatedStyle} from 'react-native-reanimated';
+import {NavigationContainer} from '@react-navigation/native'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import ProductDetails from './screens/ProductDetails';
+
+
+const Stack = createNativeStackNavigator();
 
 
 function App() {
-  const animation = useSharedValue(0);
-  const animatedStyles = useAnimatedStyle(() => ({
-    transform: [{translateX: animation.value}],
-  }));
-
   return (
-    <View className="flex flex-1 justify-center items-center">
-      <Animated.View 
-        style={[
-          {
-            width: 100,
-            height: 100,
-            backgroundColor: "orange",
-          },
-          animatedStyles,
-        ]}></Animated.View>
-      <TouchableOpacity 
-        onPress={() => {animation.value = 100;}}
-        className="w-40 h-10 justify-center items-center border mt-5"
-      >
-        <Text>Start Animation</Text>
-      </TouchableOpacity>
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen 
+          name="ProductsList" 
+          component={ProductsList}
+          options={{ headerShown: false }}
+          />
+          <Stack.Screen 
+          name="ProductDetails" 
+          component={ProductDetails}
+          options={{ headerShown: false }}
+          />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
